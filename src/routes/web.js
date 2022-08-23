@@ -9,6 +9,7 @@ const { router: productRouter } = require("./productRouter");
 const { router: deliveryRouter } = require("./deliveryRouter");
 const { router: allCodeRouter } = require("./allCodeRouter");
 const { ImgList, convertImagesInProduct } = require("../utils/ImgList");
+const { router: ratingRouter } = require("./ratingRouter");
 
 let rootRouter = express.Router();
 
@@ -23,6 +24,7 @@ let initWebRoutes = (app) => {
   rootRouter.use("/product", productRouter);
   rootRouter.use("/delivery", deliveryRouter);
   rootRouter.use("/allCode", allCodeRouter);
+  rootRouter.use("/rating", ratingRouter);
 
   rootRouter.get("/image/user/:userId", async (req, res) => {
     try {

@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 
-const Pagination = async (Model, page, limit, where = {}) => {
+const Pagination = async (Model, page = 1, limit = 10, where = {}) => {
   let total = await Model.count({
     ...where,
   });

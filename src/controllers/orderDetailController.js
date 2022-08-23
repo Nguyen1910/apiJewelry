@@ -5,7 +5,7 @@ const Pagination = require("../utils/pagination");
 const createNewOrderDetail = async (req, res) => {
   try {
     const { productId, orderId, amount } = req.body;
-    const newStation = await db.OrderDetailDetail.create({
+    const newStation = await db.OrderDetail.create({
       productId,
       orderId,
       amount,

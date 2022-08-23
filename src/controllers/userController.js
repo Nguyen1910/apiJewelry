@@ -11,7 +11,8 @@ const createNewUser = async (req, res) => {
       phone,
       address,
       password,
-      roleId,
+      gender,
+      allCodeId,
       isDeleted,
     } = req.body;
     const avatar = req.file;
@@ -22,8 +23,9 @@ const createNewUser = async (req, res) => {
       phone,
       address,
       password,
+      gender: true,
       avatar: avatar.buffer,
-      roleId,
+      allCodeId,
       isDeleted,
     });
     res.status(201).send({ success: true });
@@ -45,7 +47,7 @@ const updateUser = async (req, res) => {
       address,
       password,
       avatar,
-      roleId,
+      allCodeId,
       isDeleted,
     } = req.body;
     await db.User.update(
@@ -57,7 +59,7 @@ const updateUser = async (req, res) => {
         address,
         password,
         avatar,
-        roleId,
+        allCodeId,
         isDeleted,
       },
       {
@@ -109,7 +111,7 @@ const getAllUser = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await db.User.findByPk(id);
+    const user = await db.User.findOne({ where: { id, isDeleted: 0 } });
     if (!user) {
       throw new ApiError(404, "User not found!");
     }
@@ -125,9 +127,24 @@ const getUserById = async (req, res) => {
     //   address: user.address,
     //   password: user.password,
     //   avatar: user.avatar,
-    //   roleId: user.roleId,
+    //   allCodeId: user.allCodeId,
     //   isDeleted: user.isDeleted,
     // };
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log(req.query);
+    const user = await db.User.findOne({
+      where: { email, password, isDeleted: 0 },
+    });
+    if (!user) {
+      throw new ApiError(404, "User not found!");
+    }
     res.status(200).json(user);
   } catch (error) {
     res.status(500).send(error);
@@ -143,4 +160,5 @@ module.exports = {
   filterUsers,
   updateUser,
   deleteUser,
+  login,
 };

@@ -5,7 +5,7 @@ const Pagination = require("../utils/pagination");
 const createNewOrder = async (req, res) => {
   try {
     const {
-      statusId,
+      allCodeId,
       firstName,
       lastName,
       email,
@@ -15,7 +15,7 @@ const createNewOrder = async (req, res) => {
       userId,
     } = req.body;
     const newStation = await db.Order.create({
-      statusId,
+      allCodeId,
       firstName,
       lastName,
       email,
@@ -108,6 +108,21 @@ const getOrderById = async (req, res) => {
   }
 };
 
+const getOrderByUserId = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const order = await db.Order.findAll({
+      where: { userId },
+    });
+    if (!order) {
+      throw new ApiError(404, "Order not found!");
+    }
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const filterOrders = async (req, res) => {};
 
 module.exports = {
@@ -117,4 +132,5 @@ module.exports = {
   filterOrders,
   updateOrder,
   deleteOrder,
+  getOrderByUserId,
 };
