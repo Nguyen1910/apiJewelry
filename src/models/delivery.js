@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Delivery.init(
     {
-      staffId: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
       description: DataTypes.TEXT,
     },
     {

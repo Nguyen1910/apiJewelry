@@ -1,7 +1,7 @@
 const db = require("../models/index");
 const { QueryTypes } = require("sequelize");
 const ApiError = require("../utils/ApiError");
-const Pagination = require("../utils/pagination");
+const Pagination = require("../utils/Pagination");
 const { sequelize } = require("../models/index");
 
 const createNewRating = async (req, res) => {

@@ -1,6 +1,6 @@
 const db = require("../models/index");
 const ApiError = require("../utils/ApiError");
-const Pagination = require("../utils/pagination");
+const Pagination = require("../utils/Pagination");
 
 const createNewUser = async (req, res) => {
   try {

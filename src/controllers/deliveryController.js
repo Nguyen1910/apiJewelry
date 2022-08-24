@@ -1,14 +1,15 @@
 const db = require("../models/index");
 const ApiError = require("../utils/ApiError");
-const Pagination = require("../utils/pagination");
+const Pagination = require("../utils/Pagination");
 
 const createNewDelivery = async (req, res) => {
   try {
-    const { staffId, orderId, description } = req.body;
+    const { userId, orderId, description } = req.body;
+    console.log(userId, orderId, description);
     const newStation = await db.Delivery.create({
-      staffId,
-      orderId,
+      userId,
       description,
+      orderId,
     });
     res.status(201).send(newStation);
   } catch (error) {
@@ -38,10 +39,10 @@ const deleteDelivery = async (req, res) => {
 const updateDelivery = async (req, res) => {
   try {
     const { id } = req.params;
-    const { staffId, orderId, description } = req.body;
+    const { userId, orderId, description } = req.body;
     await db.Delivery.update(
       {
-        staffId,
+        userId,
         orderId,
         description,
       },

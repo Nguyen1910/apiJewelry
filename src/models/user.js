@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
       });
       this.hasMany(Delivery, {
-        foreignKey: "staffId",
+        foreignKey: "userId",
       });
       this.belongsTo(AllCode, {
         foreignKey: "allCodeId",

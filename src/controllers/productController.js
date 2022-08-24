@@ -4,7 +4,7 @@ const {
   convertImagesInProduct,
   convertImagesInProductList,
 } = require("../utils/ImgList");
-const Pagination = require("../utils/pagination");
+const Pagination = require("../utils/Pagination");
 
 const createNewProduct = async (req, res) => {
   try {
