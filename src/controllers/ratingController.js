@@ -94,8 +94,14 @@ const getAllRating = async (req, res) => {
 
 const getRatingById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const Rating = await db.Rating.findByPk(id);
+    const { productId } = req.params;
+    const Rating = await sequelize.query(
+      "SELECT ratings.id, ratings.productId, ratings.userId, ratings.comment, ratings.rate, ratings.createdAt , users.firstName, users.lastName  FROM ratings INNER JOIN  users ON users.id = ratings.userId WHERE productId = :productId",
+      {
+        replacements: { productId: productId },
+        type: QueryTypes.SELECT,
+      }
+    );
     if (!Rating) {
       throw new ApiError(404, "Rating not found!");
     }

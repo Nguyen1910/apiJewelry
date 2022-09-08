@@ -1,3 +1,4 @@
+const { sequelize } = require("../models/index");
 const db = require("../models/index");
 const ApiError = require("../utils/ApiError");
 const Pagination = require("../utils/Pagination");
@@ -33,20 +34,20 @@ const createNewOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const order = await db.Order.findByPk(id);
+    console.log(order);
     if (order) {
-      db.OrderDetails.destroy({
+      await db.OrderDetail.destroy({
         where: {
           orderId: id,
         },
       });
-      db.Order.destroy({
+      await db.Order.destroy({
         where: {
           id,
         },
       });
-      res.status(200).send(order);
+      res.status(200).send("delete success");
     } else {
       res.status(404).send("not found");
     }
@@ -58,17 +59,26 @@ const deleteOrder = async (req, res) => {
 const updateOrder = async (req, res) => {
   try {
     const { id } = req.params;
-    const { statusId, firstName, lastName, email, phone, address, total } =
-      req.body;
+    const {
+      allCodeId,
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      total,
+      deliveryId,
+    } = req.body;
     await db.Order.update(
       {
-        statusId,
+        allCodeId,
         firstName,
         lastName,
         email,
         phone,
         address,
         total,
+        deliveryId,
       },
       {
         where: {

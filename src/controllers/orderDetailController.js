@@ -17,23 +17,23 @@ const createNewOrderDetail = async (req, res) => {
 };
 
 const deleteOrderDetail = async (req, res) => {
-  // const { id } = req.params;
-  // const order = await db.OrderDetail.findByPk(id);
-  // if (order) {
-  //   db.OrderDetailDetails.destroy({
-  //     where: {
-  //       orderId: id,
-  //     },
-  //   });
-  //   db.OrderDetail.destroy({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-  //   res.status(200).send(order);
-  // } else {
-  //   res.status(404).send("not found");
-  // }
+  const { id } = req.params;
+  const order = await db.OrderDetail.findByPk(id);
+  if (order) {
+    db.OrderDetail.destroy({
+      where: {
+        orderId: id,
+      },
+    });
+    db.OrderDetail.destroy({
+      where: {
+        id,
+      },
+    });
+    res.status(200).send(order);
+  } else {
+    res.status(404).send("not found");
+  }
 };
 
 const updateOrderDetail = async (req, res) => {
@@ -72,8 +72,10 @@ const getAllOrderDetail = async (req, res) => {
 const getOrderDetailById = async (req, res) => {
   try {
     const { id } = req.params;
-    const orderDetail = await db.OrderDetail.findByPk(id);
-    if (!order) {
+    const orderDetail = await db.OrderDetail.findAll({
+      where: { orderId: id },
+    });
+    if (!orderDetail) {
       throw new ApiError(404, "OrderDetail not found");
     }
     res.status(200).json(orderDetail);

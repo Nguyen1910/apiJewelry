@@ -54,7 +54,7 @@ const deleteProduct = async (req, res) => {
     const { id } = req.params;
     const product = await db.Product.findByPk(id);
     if (product) {
-      db.Product.destroy({
+      await db.Product.destroy({
         where: {
           id,
         },
@@ -157,13 +157,14 @@ const filterProduct = async (req, res) => {
   try {
     const { page, limit } = req.query;
     const where = req.body;
+
     Object.keys(where).forEach((key) => {
       if (where[key] === null) {
         delete where[key];
       }
     });
     const products = await Pagination(db.Product, page, limit, where);
-    console.log(where);
+    // console.log(where);
 
     // console.log(products.data);
     const newProducts = {

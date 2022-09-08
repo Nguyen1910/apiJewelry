@@ -6,11 +6,13 @@ const {
   getUserById,
   updateUser,
   login,
+  getAllStaff,
 } = require("../controllers/userController");
 
 const router = express.Router();
 
 router.get("/", getAllUser);
+router.get("/staff", getAllStaff);
 router.get("/:id", getUserById);
 router.post("/login", login);
 router.post("/", multer().single("avatar"), createNewUser);

@@ -5,12 +5,14 @@ const {
   getDeliveryById,
   updateDelivery,
   deleteDelivery,
+  getDeliveryOrderById,
 } = require("../controllers/deliveryController");
 
 const router = express.Router();
 
 router.get("/", getAllDelivery);
 router.get("/:id", getDeliveryById);
+router.get("/order/:userId", getDeliveryOrderById);
 router.post("/", createNewDelivery);
 router.put("/:id", updateDelivery);
 router.delete("/:id", deleteDelivery);

@@ -135,6 +135,36 @@ const getUserById = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+const getAllStaff = async (req, res) => {
+  try {
+    const staff = await db.User.findAll({
+      where: { isDeleted: 0, allCodeId: "ROLE1" },
+    });
+    if (!staff) {
+      throw new ApiError(404, "User not found!");
+    }
+    // const count = await db.User.count({
+    //   where: { : id },
+    // });
+    // const data = {
+    //   id: user.id,
+    //   firstName: user.firstName,
+    //   lastName: user.lastName,
+    //   email: user.email,
+    //   phone: user.phone,
+    //   address: user.address,
+    //   password: user.password,
+    //   avatar: user.avatar,
+    //   allCodeId: user.allCodeId,
+    //   isDeleted: user.isDeleted,
+    // };
+    res.status(200).json(staff);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -156,6 +186,7 @@ const filterUsers = async (req, res) => {};
 module.exports = {
   createNewUser,
   getAllUser,
+  getAllStaff,
   getUserById,
   filterUsers,
   updateUser,

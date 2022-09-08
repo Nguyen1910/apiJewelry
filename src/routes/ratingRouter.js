@@ -10,7 +10,7 @@ const {
 const router = express.Router();
 
 router.get("/", getAllRating);
-router.get("/:id", getRatingById);
+router.get("/:productId", getRatingById);
 router.post("/", createNewRating);
 router.put("/:id", updateRating);
 router.delete("/:id", deleteRating);

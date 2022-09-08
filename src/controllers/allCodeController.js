@@ -73,7 +73,8 @@ const getAllCode = async (req, res) => {
 const getCodeById = async (req, res) => {
   try {
     const { id } = req.params;
-    const code = await db.AllCode.findByPk(id);
+    console.log(id);
+    const code = await db.AllCode.findAll({ where: { type: id } });
     if (!code) {
       throw new ApiError(404, "Code not found!");
     }

@@ -1,3 +1,5 @@
+const { sequelize } = require("../models/index");
+const { QueryTypes } = require("sequelize");
 const db = require("../models/index");
 const ApiError = require("../utils/ApiError");
 const Pagination = require("../utils/Pagination");
@@ -84,12 +86,32 @@ const getDeliveryById = async (req, res) => {
   }
 };
 
+const getDeliveryOrderById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const deliveryOrder = await sequelize.query(
+      "select orders.id, orders.allCodeId, concat(orders.lastName,' ',orders.firstName) as name, orders.address, orders.phone, orders.total, orders.userId, orders.deliveryId, deliveries.description from orders inner join deliveries on orders.deliveryId = deliveries.id where deliveries.userId = :userId",
+      {
+        replacements: { userId: userId },
+        type: QueryTypes.SELECT,
+      }
+    );
+    if (!deliveryOrder) {
+      throw new ApiError(404, "Order not found!");
+    }
+    res.status(200).json(deliveryOrder);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const filterDelivery = async (req, res) => {};
 
 module.exports = {
   createNewDelivery,
   getAllDelivery,
   getDeliveryById,
+  getDeliveryOrderById,
   filterDelivery,
   updateDelivery,
   deleteDelivery,
